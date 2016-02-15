@@ -21,10 +21,19 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  # POST /projects/1
+  def add_user
+    @user = User.find_by(add_user_params)
+    @project.users << @user
+    redirect_to @project
+  end
   # POST /projects
   # POST /projects.json
   def create
-    @project = Project.new(project_params)
+    @project = Project.new(name: project_params[:name])
+    @user = User.find(project_params[:user_id])
+    @project.users << @user   
+    @user.projects << @project
 
     respond_to do |format|
       if @project.save
@@ -69,6 +78,10 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params.require(:project).permit(:name)
+      params.require(:project).permit(:name, :user_id)
+    end
+
+    def add_user_params
+      params.requre(:new_user).permit(:user_name)
     end
 end

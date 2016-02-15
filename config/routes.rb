@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :projects
   resources :products
   resources :users
+  post 'projects/show' => 'project#add_user'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
